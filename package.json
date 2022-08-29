@@ -4,7 +4,8 @@
   "description": "there are two folders:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cd ./client && npm start",
+    "start-sever": "cd ./sever && npm start"
   },
   "repository": {
     "type": "git",
