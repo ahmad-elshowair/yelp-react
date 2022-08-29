@@ -4,8 +4,7 @@
   "description": "there are two folders:",
   "main": "index.js",
   "scripts": {
-    "start": "cd ./sever && npm start",
-    "start-client": "cd ./client && npm start"
+    "start": "cd ./sever && npm start"
   },
   "repository": {
     "type": "git",
