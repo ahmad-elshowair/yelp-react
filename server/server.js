@@ -14,10 +14,7 @@ const port = PORT || 3002;
 const app = express();
 
 // middlewares
-app.use((_req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+app.use(cors());
 
 app.use(express.json());
 
