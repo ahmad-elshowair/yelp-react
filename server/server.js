@@ -1,6 +1,4 @@
 import express from "express";
-import morgan from 'morgan';
-import helmet from 'helmet'
 import dotenv from 'dotenv';
 import cors from 'cors';
 dotenv.config();
@@ -15,12 +13,7 @@ const app = express();
 
 // middlewares
 app.use(cors());
-
 app.use(express.json());
-
-app.use(morgan('tiny'));
-
-app.use(helmet());
 
 // use routes of restaurants
 app.use('/restaurants', restaurantsRoutes);
