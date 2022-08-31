@@ -5,17 +5,28 @@ const AddRestaurant = () => {
 
   const {addRestaurants} = useContext(RestaurantContext);
   const [dataForm, setDataForm] = useState({
-    name: '',
-    location: '',
+    restaurant_name: '',
+    restaurant_location: '',
     price_range: "price range"
   });
 
+
+  const handleChangingRestaurantInputs = (event) =>{
+    event.preventDefault();
+    const {name, value} = event.target;
+    setDataForm((prev)=>{
+      return{
+        ...prev,
+        [name]: value
+      };
+    });
+  };
   const handleAddRestaurant = async(event) =>{
     event.preventDefault();
     try {
       const response = await restaurantApi.post('/create-restaurant', {
-        name: dataForm.name,
-        location: dataForm.location,
+        restaurant_name: dataForm.restaurant_name,
+        restaurant_location: dataForm.restaurant_location,
         price_range: dataForm.price_range
        });
 
@@ -24,8 +35,8 @@ const AddRestaurant = () => {
 
        // empty the inputs 
        setDataForm({
-        name: '',
-        location: '',
+        restaurant_name: '',
+        restaurant_location: '',
         price_range: "price range"
        });
     } catch (error) {
@@ -42,10 +53,10 @@ const AddRestaurant = () => {
             <div className="col">
               <input 
                 type="text" 
-                name="name" 
-                id="name"
-                value={dataForm.name}
-                onChange={(event) => setDataForm(prev => ({...prev, name: event.target.value}))}
+                name="restaurant_name" 
+                id="restaurant_name"
+                value={dataForm.restaurant_name}
+                onChange={(event) => handleChangingRestaurantInputs(event)}
                 className="form-control" 
                 placeholder='restaurant name...'
               />
@@ -53,10 +64,10 @@ const AddRestaurant = () => {
             <div className="col">
               <input 
                 type="text" 
-                name="location" 
-                id="location" 
-                value={dataForm.location}
-                onChange={(event) => setDataForm(prev => ({...prev, location: event.target.value}))}
+                name="restaurant_location" 
+                id="restaurant_location" 
+                value={dataForm.restaurant_location}
+                onChange={(event) => handleChangingRestaurantInputs(event)}
                 className="form-control" 
                 placeholder='restaurant location...'
               />
@@ -66,7 +77,7 @@ const AddRestaurant = () => {
                 name="price_range" 
                 id="price_range" 
                 value={dataForm.price_range}
-                onChange={(event) => setDataForm(prev => ({...prev, price_range: event.target.value}))} 
+                onChange={(event) => handleChangingRestaurantInputs(event)} 
                 className="custom-select my-1 mr-sm-2"
               >
                 <option disabled={true} value="price range">price range</option>

@@ -9,6 +9,8 @@ const RestaurantsList = () => {
   const navigate = useNavigate();
 
   const {restaurants, setRestaurants} = useContext(RestaurantContext);
+
+  // get all listed restaurants
   useEffect(() => {
     const fetchData =  async ()=> {   
       try {
@@ -21,6 +23,8 @@ const RestaurantsList = () => {
     fetchData();
   }, [setRestaurants]);
 
+  
+  // delete a restaurant
   const handleDeleteRestaurant = async (event, id) =>{
     event.stopPropagation();
     try {
@@ -50,6 +54,7 @@ const RestaurantsList = () => {
         <table className="table table-hover table-light table-striped">
           <thead>
             <tr className='bg-info'>
+              <th scope='col'>Id</th>
               <th scope='col'>Restaurant</th>
               <th scope='col'>Location</th>
               <th scope='col'>Price Range</th>
@@ -60,19 +65,20 @@ const RestaurantsList = () => {
           </thead>
           <tbody>
             { restaurants &&
-              restaurants.map(restaurant => 
+              restaurants.map((restaurant, index) => 
                 (
                   <tr
                     role={"button"}
                     onClick={()=>navigate(`/restaurant-page/${restaurant.id}`)} 
-                    key={restaurant.id}
+                    key={index}
                   >
-                    <td>{restaurant.name}</td>
-                    <td>{restaurant.location}</td>
+                    <td> - {restaurant.id}</td>
+                    <td>{restaurant.restaurant_name}</td>
+                    <td>{restaurant.restaurant_location}</td>
                     <td>{"$".repeat(restaurant.price_range)}</td>
                     <td>
                       {
-                        !restaurant.count ? (
+                        !restaurant.reviews_number ? (
                            <span className="text-warning">0 reviews</span>
                         ) :(
                           <>
@@ -80,7 +86,7 @@ const RestaurantsList = () => {
                               style={{color: 'orange'}} 
                               rating={restaurant.average_rating}
                             />
-                            <span className="text-warning ml-1">({restaurant.count})</span>
+                            <span className="text-warning ml-1">({restaurant.reviews_number})</span>
                           </>
                         )
                       }

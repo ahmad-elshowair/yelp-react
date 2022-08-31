@@ -1,10 +1,12 @@
-import pool from "../database/pool.js";
+import db from "../database/pool.js";
 import queries from "./queries.js";
+
+
 
 // get all  listed restaurants
 const getRestaurants = async(req, res) =>{
   try {
-    const connection = await pool.connect();
+    const connection = await db.connect();
     connection.query(queries.getRestaurantsRatingData, (error, results) => {
       if (error){
         throw new Error(error);
@@ -22,8 +24,8 @@ const getRestaurants = async(req, res) =>{
 // get a restaurant
 const getRestaurantById = async(req, res) =>{
   try {
-    const connection = await pool.connect();
-    const {id} = req.params;
+    const connection = await db.connect();
+    const { id } = req.params;
     const restaurant = await connection.query(queries.getRestaurantDataById, [id]);
     const reviews = await connection.query(queries.getReviews, [id]);
       if(restaurant.rows.length < 1){
@@ -44,20 +46,19 @@ const getRestaurantById = async(req, res) =>{
 
 const createRestaurant = async(req, res)=>{
   try {
-    const { name, location, price_range } = req.body;
-    const connection = await pool.connect();
-
-    connection.query(queries.checkRestaurant, [name, location], (error,results)=>{
+    const { restaurant_name, restaurant_location, price_range } = req.body;
+    const connection = await db.connect();
+    connection.query(queries.checkRestaurant, [restaurant_name, restaurant_location], (error,results)=>{
       if (error){
         throw new Error(error);
       }
 
       if(results.rows.length){
         res.status(200).json({
-          message: `${name} restaurant is already exist in ${location}`
+          message: `${restaurant_name} restaurant is already exist in ${restaurant_location}`
         });
       }else{
-        connection.query(queries.createRestaurant, [name, location, price_range], (error, results)=>{
+        connection.query(queries.createRestaurant, [restaurant_name, restaurant_location, price_range], (error, results)=>{
           if (error) {
             throw new Error(error);
           }
@@ -77,9 +78,9 @@ const createRestaurant = async(req, res)=>{
 
 const updateRestaurant = async(req, res)=>{
   try {
-    const {id} = req.params;
-    const {name, location, price_range} = req.body;
-    const connection = await pool.connect();
+    const { id } = req.params;
+    const { restaurant_name, restaurant_location, price_range } = req.body;
+    const connection = await db.connect();
     // check existing of a restaurant
     connection.query(queries.getRestaurantById, [id], (error, results)=>{
       if (error) {
@@ -89,7 +90,7 @@ const updateRestaurant = async(req, res)=>{
       if (results.rows.length) {
         connection.query(
           queries.updateRestaurant, 
-          [name, location, price_range, id], 
+          [restaurant_name, restaurant_location, price_range, id], 
           (error, results)=>{
             if (error) {
               throw new Error(error);
@@ -113,8 +114,8 @@ const updateRestaurant = async(req, res)=>{
 
 const deleteRestaurant = async(req, res)=>{
   try {
-    const {id} = req.params;
-    const connection = await pool.connect(); 
+    const { id } = req.params;
+    const connection = await db.connect(); 
     connection.query(queries.getRestaurantById, [id], (error, results)=>{
       if(error){
         throw new Error(error);
@@ -131,7 +132,7 @@ const deleteRestaurant = async(req, res)=>{
         
       } else {
         res.status(200).json({
-          message: `the restaurant with an id of ${id} not exist`
+          message: `the restaurant with an id of ${id} is not exist`
         });
       }
     }); 
@@ -144,9 +145,9 @@ const deleteRestaurant = async(req, res)=>{
 
 const createReview = async(req, res) =>{
   try {
-    const {user_name, review, rating} = req.body;
-    const {id} = req.params;
-    const connection = await pool.connect();
+    const { user_name, review, rating } = req.body;
+    const { id } = req.params;
+    const connection = await db.connect();
     connection.query(
       queries.createReview, 
       [user_name, review, rating, id],

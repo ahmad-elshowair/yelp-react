@@ -13,7 +13,7 @@ const RestaurantPage = () => {
 
   useEffect(() => {
   
-    // fetch a restaurant with a specific id
+    // fetch a 
     const fetchData = async()=>{
       try {
         const response = await restaurantApi.get(`/get-restaurant/${id}`);
@@ -26,13 +26,13 @@ const RestaurantPage = () => {
     fetchData();
   }, [setSelectedRestaurant, setReviews, id]);
   
-  document.title=`${selectedRestaurant.name} Page`;
+  document.title=`${selectedRestaurant.restaurant_name} Page`;
 
   return (
     <section className="restaurant-page">
       <div className="container">
         <header>
-          <h1 className='text-center'>{selectedRestaurant && selectedRestaurant.name}</h1>
+          <h1 className='text-center'>{selectedRestaurant && selectedRestaurant.restaurant_name}</h1>
         </header>
         <div className="mt-3">
           <Review reviews={reviews}/>

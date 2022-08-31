@@ -5,4 +5,4 @@ dotenv.config();
 const { Pool } = pkg;
  const pool = new Pool();
 
-export default pool
+export default pool;

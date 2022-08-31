@@ -46,7 +46,6 @@ const AddReview = () => {
         review: '',
         rating: 'Rating'
       });
-      navigate('/');
       navigate(`/restaurant-page/${id}`);
     } catch (error) {
       throw new Error(error);

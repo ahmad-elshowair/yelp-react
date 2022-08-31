@@ -6,8 +6,8 @@ const UpdateRestaurant = () => {
   const { id } = useParams();
   const navigate =useNavigate();
   const [updateFormData, setUpdateFormData] = useState({
-    name: '',
-    location: '',
+    restaurant_name: '',
+    restaurant_location: '',
     price_range: 0
   });
 
@@ -17,8 +17,8 @@ const UpdateRestaurant = () => {
       const response = await restaurantApi.get(`/get-restaurant/${id}`);
       setUpdateFormData(prev =>{
         return{
-          name: response.data.restaurant.name,
-          location: response.data.restaurant.location,
+          restaurant_name: response.data.restaurant.restaurant_name,
+          restaurant_location: response.data.restaurant.restaurant_location,
           price_range: response.data.restaurant.price_range
         }
       });
@@ -42,41 +42,41 @@ const UpdateRestaurant = () => {
   const handleSaveUpdatedData =async(event)=>{
     event.preventDefault();
     await restaurantApi.put(`/update-restaurant/${id}`,{
-      name: updateFormData.name,
-      location: updateFormData.location,
+      restaurant_name: updateFormData.restaurant_name,
+      restaurant_location: updateFormData.restaurant_location,
       price_range: updateFormData.price_range
     });
     navigate('/');
   };
 
-  document.title = updateFormData.name;
+  document.title = updateFormData.restaurant_name;
   return (
     <div className="mt-4">  
       <div className='container'>
-        <h2 className='text-center'>Update Restaurant</h2>
+        <h2 className='text-center'>Update {updateFormData.restaurant_name}</h2>
         <form action="" className='mt-5'>
           <div className="form-group row mb-3">
-            <label htmlFor="name" className="col-2 col-form-label">Name</label>
+            <label htmlFor="restaurant_name" className="col-2 col-form-label">Restaurant Name</label>
             <div className="col-10">
               <input 
                 type="text" 
-                name="name" 
-                id="name" 
+                name="restaurant_name" 
+                id="restaurant_name" 
                 className="form-control"
-                value={updateFormData.name}
+                value={updateFormData.restaurant_name}
                 onChange={(event)=> handleChangeData(event)}
               />
             </div>
           </div>
           <div className="form-group row mb-3">
-            <label htmlFor="location" className="col-2 col-form-label">Location</label>
+            <label htmlFor="restaurant_location" className="col-2 col-form-label">Restaurant Location</label>
             <div className="col-10">
               <input 
                 type="text" 
-                name="location" 
-                id="location" 
+                name="restaurant_location" 
+                id="restaurant_location" 
                 className="form-control"
-                value={updateFormData.location}
+                value={updateFormData.restaurant_location}
                 onChange={(event)=> handleChangeData(event)}
               />
             </div>
