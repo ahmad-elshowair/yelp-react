@@ -11,7 +11,7 @@ const port = PORT || 3002;
 // an instance app of express 
 const app = express();
 
-// middlewares
+// middleware
 app.use(cors());
 app.use(express.json());
 
@@ -20,4 +20,4 @@ app.use('/restaurants', restaurantsRoutes);
 
 app.listen(port,()=>{
 console.log(`the server is up on http://localhost:${port}`);
-});
+}); 
